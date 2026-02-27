@@ -2,8 +2,7 @@
 {
 
     imports = [
-        ./steam.nix
-        ./gamescope.nix
+        ./stalker2
     ];
 
 }

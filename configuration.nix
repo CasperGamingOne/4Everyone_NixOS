@@ -18,6 +18,19 @@
         allowed-users = [ "caspergamingone" "@wheel" ];
         auto-optimise-store = true;
         download-buffer-size = 524288000;
+
+        substituters = [
+          "https://attic.xuyh0120.win/lantian"
+          "https://cache.garnix.io"
+          "https://nix-community.cachix.org"
+        ];
+
+        trusted-public-keys = [
+          "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
+          "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        ];
+
       };
       gc = {
         automatic = true;

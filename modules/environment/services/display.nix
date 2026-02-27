@@ -18,9 +18,6 @@
             "modesetting"
             "nvidia"
         ];
-
-        excludePackages = with pkgs; [
-        ];
     };
 
     # --- THIS IS THE CRUCIAL PART FOR ENABLING DISPLAYLINK ---
@@ -35,8 +32,15 @@
             User = "root";
             Group = "root";
             Restart = "on-failure";
-            RestartSec = 5; # Wait 5 seconds before restarting
+            RestartSec = 2; # Wait 2 seconds before restarting
         };
+    };
+    
+    # Services systemd for suspend/resume/hibernate
+    systemd.services = {
+        nvidia-suspend.enable = true;
+        nvidia-resume.enable = true;
+        nvidia-hibernate.enable = true;
     };
 
     # KDE Plasma Desktop Environment
@@ -44,6 +48,7 @@
         sddm = {
             enable = true;
             wayland.enable = true;
+            autoNumlock = true;
             settings.General.DisplayServer = "wayland";
         };
         defaultSession = "plasma";

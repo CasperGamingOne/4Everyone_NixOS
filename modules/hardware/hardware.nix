@@ -1,5 +1,4 @@
 { config, pkgs, ... }:
-
 {
 
     boot = {
@@ -9,21 +8,27 @@
             efi.canTouchEfiVariables = true;
         };
         # Use latest xanmod kernel + fixes and modules
-        kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
-        kernelParams = [ "nvidia.NVreg_TemporaryFilePath=/var/tmp" ];
+        kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-x86_64-v3;
         initrd.kernelModules = [ "evdi" ];
         extraModulePackages = [ config.boot.kernelPackages.evdi ];
+        extraModprobeConfig = ''
+            options nvidia NVreg_PreserveVideoMemoryAllocations=0
+            options nvidia NVreg_TemporaryFilePath=/var/tmp
+        '';
     };
 
     # Config + Variables
     environment.sessionVariables = {
-        KWIN_DRM_PREFER_COLOR_DEPTH = "24";
         LIBVA_DRIVER_NAME = "iHD";     # Prefer the modern iHD backend
+        NIXOS_OZONE_WL = "1";
+        KWIN_DRM_PREFER_COLOR_DEPTH = "24";
     };
     zramSwap = {
         enable = true;
         algorithm = "zstd";
     };
+
+    hardware.firmware = [ pkgs.sof-firmware ];
 
     hardware.graphics = {
         enable = true;
@@ -36,8 +41,8 @@
 
     # nVIDIA Support
     hardware.nvidia = {
-        package = config.boot.kernelPackages.nvidiaPackages.production;
         open = false;
+        package = config.boot.kernelPackages.nvidiaPackages.production;
         modesetting.enable = true;
         powerManagement.enable = true;
         nvidiaPersistenced = true;

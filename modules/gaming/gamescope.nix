@@ -4,7 +4,9 @@
     programs.gamescope = {
         enable = true;
         package = pkgs.unstable.gamescope;
-        capSysNice = false;
+        capSysNice = true;
     };
+
+    environment.systemPackages = with pkgs.unstable; [ gamescope-wsi ];
 
 }
