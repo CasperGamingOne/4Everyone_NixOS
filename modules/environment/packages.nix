@@ -1,7 +1,10 @@
 { config, pkgs, ... }:
 {
 
-    programs.gpu-screen-recorder.enable = true;
+    programs.gpu-screen-recorder = {
+        enable = true;
+        package = pkgs.unstable.gpu-screen-recorder;
+    };
 
     programs.gnome-disks.enable = true;
 
@@ -23,8 +26,12 @@
     usbutils
     bat
     mission-center
+    nixpkgs-review
 
-    # internet stuff
+    # internet + communications stuff
+
+    # Content Creator stuff
+    unstable.gpu-screen-recorder-gtk
 
     # gaming
     nur.repos.uriotv.scopebuddy
@@ -35,11 +42,6 @@
     # native wayland support (unstable)
     unstable.wineWow64Packages.waylandFull
     unstable.umu-launcher
-    (heroic.override {
-        extraPkgs = pkgs: [
-            unstable.comet-gog_heroic
-        ];
-    })
 
     ];
 

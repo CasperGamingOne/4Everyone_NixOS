@@ -3,11 +3,9 @@
 
     imports = [
         ./home.nix
-        ./macchina
-        ./browser.nix
+        ./configurations
         ./packages.nix
         ./flatpak.nix
-        ./gaming-tricks
     ];
 
 }

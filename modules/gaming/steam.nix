@@ -3,8 +3,9 @@
 
     programs.steam = {
         enable = true;
-        package = pkgs.steam.override {
-            extraPkgs = pkgs': with pkgs'; [
+        package = pkgs.millennium-steam.override {
+            extraLibraries = pkgs: [ pkgs.libxcb ];
+            extraPkgs = pkgs: with pkgs; [
                 libxcursor
                 libxi
                 libxinerama
@@ -12,27 +13,43 @@
                 libpng
                 libpulseaudio
                 libvorbis
-                stdenv.cc.cc.lib # Provides libstdc++.so.6
+                stdenv.cc.cc.lib
                 libkrb5
                 keyutils
-                # Add other libraries as needed
             ];
         };
         extest.enable = false; # translate X11 input events to uinput events (buggy)
         remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
         dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
         localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-        extraCompatPackages = with pkgs; [
-            proton-ge-bin
-            nur.repos.forkprince.proton-dw-bin
-            nur.repos.forkprince.proton-cachyos-v2-bin
+        extraPackages = with pkgs.unstable; [
+            gamescope
+            gamescope-wsi
         ];
-        protontricks.enable = true;
+        extraCompatPackages = with pkgs; [
+            unstable.proton-ge-bin
+            nur.repos.forkprince.proton-dw-bin
+            nur.repos.forkprince.proton-cachyos-v3-bin
+        ];
+        protontricks = {
+            enable = true;
+            package = pkgs.unstable.protontricks;
+        };
     };
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
             "steam"
             "steam-unwrapped"
-            "steam-run"
+    ];
+
+    programs.gamescope = {
+        enable = true;
+        package = pkgs.unstable.gamescope;
+        capSysNice = false;
+    };
+
+    environment.systemPackages = with pkgs; [
+        unstable.steam-run
+        unstable.gamescope-wsi
     ];
 
 }

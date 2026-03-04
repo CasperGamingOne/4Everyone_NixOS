@@ -6,7 +6,10 @@
     home.username = "caspergamingone";
     home.homeDirectory = "/home/caspergamingone";
 
-    xdg.enable = true;
+    xdg = {
+        enable = true;
+        systemDirs.data = [ "$HOME/.local/share/flatpak/exports/share" ];
+    };
 
     # This value determines the Home Manager release that your configuration is
     # compatible with. This helps avoid breakage when a new Home Manager release
@@ -19,15 +22,15 @@
 
     # git configuration
     programs.git = {
-      enable = true;
-      settings = {
-        user = {
-          name  = "CasperGamingOne";
-          email = "caspergaming99@outlook.com";
+        enable = true;
+        settings = {
+            user = {
+                name  = "CasperGamingOne";
+                email = "caspergaming99@outlook.com";
+            };
+            init.defaultBranch = "main";
         };
-        init.defaultBranch = "main";
       };
-    };
 
     # Home Manager is pretty good at managing dotfiles. The primary way to manage
     # plain files is through 'home.file'.
@@ -61,7 +64,8 @@
     #  /etc/profiles/per-user/caspergamingone/etc/profile.d/hm-session-vars.sh
     #
     home.sessionVariables = {
-      # EDITOR = "emacs";
+        # EDITOR = "emacs";
+        STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/.steam/root/compatibilitytools.d";
     };
 
     # Let Home Manager install and manage itself.

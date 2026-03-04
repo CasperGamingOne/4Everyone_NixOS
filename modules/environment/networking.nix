@@ -13,7 +13,7 @@
             wifi.backend = "iwd";
         };
         firewall = rec {
-            allowedTCPPorts = [ 42420 ];
+            allowedTCPPorts = [ 42420 12315 ];
             allowedTCPPortRanges = [ { from = 1714; to = 1764; }  ];
             allowedUDPPorts = allowedTCPPorts;
             allowedUDPPortRanges = allowedTCPPortRanges;

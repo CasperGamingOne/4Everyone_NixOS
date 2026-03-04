@@ -4,11 +4,40 @@
     boot = {
         # Bootloader
         loader = {
-            systemd-boot.enable = true;
+            systemd-boot = {
+                enable = true;
+                configurationLimit = 6;
+            };
+            timeout = 5;
             efi.canTouchEfiVariables = true;
         };
+
+        # Plymouth splash screen
+        consoleLogLevel = 3;
+        initrd = {
+            systemd.enable = true;
+            verbose = false;
+        };
+        plymouth = {
+            enable = true;
+            theme = "cross_hud";
+            themePackages = with pkgs; [
+                nixos-bgrt-plymouth
+                (adi1090x-plymouth-themes.override { selected_themes = [ "cross_hud" ]; })
+            ];
+        };
+
         # Use latest xanmod kernel + fixes and modules
-        kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-x86_64-v3;
+        kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-bore;
+
+        kernelParams = [
+            "quiet"
+            "udev.log_level=3"
+            "systemd.show_status=auto"
+            "mitigations=auto"
+            "pcie_aspm=off"
+        ];
+
         initrd.kernelModules = [ "evdi" ];
         extraModulePackages = [ config.boot.kernelPackages.evdi ];
         extraModprobeConfig = ''
@@ -27,6 +56,8 @@
         enable = true;
         algorithm = "zstd";
     };
+
+    hardware.facter.reportPath = ./facter.json;
 
     hardware.firmware = [ pkgs.sof-firmware ];
 

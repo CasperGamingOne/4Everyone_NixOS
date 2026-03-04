@@ -3,6 +3,12 @@
 
     services.kdeconnect.enable = true;
 
+
+    programs.chromium = {
+        enable = true;
+        package = pkgs.brave;
+    };
+
     # The home.packages option allows you to install Nix packages into your
     # environment.
 
@@ -32,14 +38,19 @@
         vlc
 
         # Content Creator stuff
-        gpu-screen-recorder-gtk
+
 
         # office/work/faculty stuff
         onlyoffice-desktopeditors
+        octaveFull
 
         # gaming
-        unstable.heroic
-        unstable.faugus-launcher
+        (unstable.heroic.override {
+            extraPkgs = pkgs: [
+                unstable.comet-gog_heroic
+                unstable.gogdl
+            ];
+        })
 
         # games
         osu-lazer

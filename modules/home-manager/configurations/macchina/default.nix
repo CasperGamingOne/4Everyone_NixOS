@@ -2,7 +2,8 @@
 {
 
     imports = [
-        ./steam.nix
+        ./config.nix
+        ./theme.nix
     ];
 
 }

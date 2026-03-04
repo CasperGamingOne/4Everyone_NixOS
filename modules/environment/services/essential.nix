@@ -10,14 +10,11 @@
         };
     };
 
-    # Schedulers and Gaming services
-    services.scx = {
+    # Scheduler and Gaming services
+    services.ananicy = {
         enable = true;
-        package = pkgs.scx.rustscheds;
-        scheduler = "scx_lavd";
-        extraArgs = [
-            "--performance"
-        ];
+        package = pkgs.ananicy-cpp;
+        rulesProvider = pkgs.unstable.ananicy-rules-cachyos;
     };
     services.zram-generator.enable = true;
 
@@ -63,17 +60,17 @@
             ## Settings to apply while connected to Battery power
             [BATTERY]
             # Update the registers every this many seconds
-            Update_Rate_s: 30
+            Update_Rate_s: 60
             # Max package power for time window #1
-            PL1_Tdp_W: 20
+            PL1_Tdp_W: 15
             # Time window #1 duration
             PL1_Duration_s: 30
             # Max package power for time window #2
-            PL2_Tdp_W: 30
+            PL2_Tdp_W: 25
             # Time window #2 duration
             PL2_Duration_S: 0.002
             # Max allowed temperature before throttling
-            Trip_Temp_C: 80
+            Trip_Temp_C: 75
             # Set cTDP to normal=0, down=1 or up=2 (EXPERIMENTAL)
             cTDP: 1
             # Disable BDPROCHOT (EXPERIMENTAL)
@@ -84,20 +81,20 @@
             # Update the registers every this many seconds
             Update_Rate_s: 5
             # Max package power for time window #1
-            PL1_Tdp_W: 40
+            PL1_Tdp_W: 36
             # Time window #1 duration
-            PL1_Duration_s: 20
+            PL1_Duration_s: 10
             # Max package power for time window #2
-            PL2_Tdp_W: 45
+            PL2_Tdp_W: 41
             # Time window #2 duration
             PL2_Duration_S: 0.002
             # Max allowed temperature before throttling
-            Trip_Temp_C: 94
+            Trip_Temp_C: 95
             # Set HWP energy performance hints to 'performance' on high load (EXPERIMENTAL)
             # Uncomment only if you really want to use it
             HWP_Mode: True
             # Set cTDP to normal=0, down=1 or up=2 (EXPERIMENTAL)
-            cTDP: 1
+            cTDP: 0
             # Disable BDPROCHOT (EXPERIMENTAL)
             Disable_BDPROCHOT: False
         ";

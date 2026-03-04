@@ -14,9 +14,13 @@
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 		flatpaks.url = "github:gmodena/nix-flatpak/?ref=latest";
+		millennium = {
+            url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
+            inputs.nixpkgs.follows = "nixpkgs";
+		};
 	};
 
-	outputs = { self, nixpkgs, nixpkgs-unstable, nix-cachyos-kernel, nur, home-manager, flatpaks, ... }@inputs:
+	outputs = { self, nixpkgs, nixpkgs-unstable, nix-cachyos-kernel, nur, home-manager, flatpaks, millennium, ... }@inputs:
 	let
 		system = "x86_64-linux";
 		pkgs = import nixpkgs { inherit system; };
@@ -31,6 +35,8 @@
 				nixpkgs.overlays = [
 
 					nix-cachyos-kernel.overlays.pinned
+
+					millennium.overlays.default
 
 					(final: prev: {
 						unstable = import nixpkgs-unstable {
@@ -59,6 +65,7 @@
 						extraSpecialArgs = {
 							inherit inputs;
 						};
+						backupFileExtension = "bak";
 						users.caspergamingone = ./modules/home-manager; # replace <USERNAME> with your actual username
 					};
 				}
